@@ -34,11 +34,16 @@ const styles = theme => ({
 
 
 const Input = (props) => {
+    
     const { classes } = props;
+
+     let goBack = () => {
+        props.onSave();
+     }
 
     let formsaveHander = (ev) =>{
         ev.preventDefault();
-        props.onSave();
+        props.onGoBack();
     }
     return (
         <div className="Field">
@@ -68,6 +73,9 @@ const Input = (props) => {
                     />
                     <Button variant="contained" fullWidth color="primary" onClick={formsaveHander} className={classes.button}>
                         Save Changes
+                    </Button>
+                    <Button variant="contained" fullWidth color="secondary" onClick={goBack} className={classes.button}>
+                        Go back
                     </Button>
                 </form>
             </div>

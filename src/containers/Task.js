@@ -59,6 +59,11 @@ class Task extends Component{
         this.setState({edit:false})
     }
 
+    goBacktoTheTaskList = () =>{
+        this.props.loadTrigger();
+        this.setState({edit:false});
+    }
+
 
     deleteMode(taskID){
         this.props.onDelete(taskID);
@@ -81,6 +86,7 @@ class Task extends Component{
                             onHeaderChange={(ev) => this.taskHeaderHandler(ev)}
                             onDescChange={(ev) => this.taskDescHandler(ev)}
                             onSave={this.saveVal}
+                            onGoBack={this.goBacktoTheTaskList}
                             prevHeaderValue={this.state.currentTaskHeader}
                             prevDescValue={this.state.currentTaskDesc}
                             taskID={this.state.currentTaskID}

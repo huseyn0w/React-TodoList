@@ -1,5 +1,36 @@
 import React, {Component} from 'react';
 import {NavLink} from 'react-router-dom';
+import Button from '@material-ui/core/Button';
+import { withStyles } from '@material-ui/core/styles';
+import PropTypes from 'prop-types';
+import TextField from '@material-ui/core/TextField';
+
+const styles = theme => ({
+    button: {
+        margin: theme.spacing.unit,
+    },
+    leftIcon: {
+        marginRight: theme.spacing.unit,
+    },
+    rightIcon: {
+        marginLeft: theme.spacing.unit,
+    },
+    iconSmall: {
+        fontSize: 20,
+    },
+    container: {
+        display: 'flex',
+        flexWrap: 'wrap',
+    },
+    textField: {
+        marginLeft: theme.spacing.unit,
+        marginRight: theme.spacing.unit,
+        width: 200,
+    },
+    menu: {
+        width: 200,
+    },
+});
 
 class signUp extends Component{
 
@@ -42,15 +73,33 @@ class signUp extends Component{
 
     render(){
         
+        const { classes } = this.props;
         
         return(
             <div className="FieldGroup">
                 <h2>Signup Interface</h2>
                 {this.state.errorMessage}
                 <form onSubmit={this.actionHandler}>
-                    <input type="email" name="login" onChange={this.loginHandler} className="form-control" placeholder="E-Mail" />
-                    <input type="password" onChange={this.passwordHandler} name="passworld" className="form-control" placeholder="Password" />
-                    <button type="submit" onClick={this.actionHandler} className="btn btn-success AddTask">Sign up</button>
+                    <TextField
+                        required
+                        id = "email"
+                        label = "Email"
+                        fullWidth
+                        margin = "normal"
+                        onChange={this.loginHandler}
+                    />
+                    <TextField
+                        required
+                        id = "password"
+                        label = "Password"
+                        type="password"
+                        fullWidth
+                        margin = "normal"
+                        onChange={this.passwordHandler}
+                    />
+                    <Button variant="contained" type="submit" fullWidth color="primary" onClick={this.actionHandler} className={classes.button}>
+                        Sign up
+                    </Button>
                 </form>
                 <br/>
                 <br/>
@@ -60,4 +109,8 @@ class signUp extends Component{
     }
 } 
 
-export default signUp;
+signUp.propTypes = {
+    classes: PropTypes.object.isRequired,
+};
+
+export default withStyles(styles)(signUp);

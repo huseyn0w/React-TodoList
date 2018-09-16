@@ -184,6 +184,10 @@ NavigationCover h1{
   text-decoration: none;
 }
 
+.materialButton:hover{
+  text-decoration: none;
+}
+
 @media screen and (max-width:767px) {
   .App {
     padding: 50px 5vw !important;
