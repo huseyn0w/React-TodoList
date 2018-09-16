@@ -1,0 +1,16 @@
+export const removeTask = "REMOVE_TASK";
+export const edit = "EDIT";
+export const newTaskStatusUpdate = "NEW_TASK_STATUS_UPDATE";
+export const newTaskHandler = "NEW_TASK_HANDLER";
+export const addNewTask = "ADD_NEW_TASK";
+export const saveTask = "SAVE_TASK";
+export const newTaskHeaderHandler = "NEW_TASK_HEADER_HANDLER";
+export const newTaskDescHandler = "NEW_TASK_DESC_HANDLER";
+export const taskListLOAD = "TASK_LIST_LOAD";
+export const testAction = "TEST_ACTION";
+export const loadModeOn = "LOAD_MODE_ON";
+export const tryLogin = "TRY_LOGIN";
+export const loginSuccess = "SUCCESS_LOGIN";
+export const loginFail = "LOGIN_FAILED";
+export const logout = "LOGOUT";
+export const signUP = "SIG_NUP";
