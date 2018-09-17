@@ -80,7 +80,11 @@ class Tasks extends Component{
         this.setState({
             anchorEl: null
         });
-        console.log('logout action here');
+    };
+
+    handleLogout = () => {
+        this.props.loadTrigger();
+        this.props.logout();
     };
     
     render(){
@@ -88,6 +92,7 @@ class Tasks extends Component{
         const open = Boolean(anchorEl);
         const { classes } = this.props;
         const taskListObjectSize = Object.keys(this.props.tasks).length;
+        let authorClassNames = classes.grow + ' author';
 
         return(
             <div>
@@ -118,8 +123,8 @@ class Tasks extends Component{
                         <IconButton onClick={this.toggleDrawer('left', true)} className={classes.menuButton} color="inherit" aria-label="Menu">
                         <MenuIcon />
                         </IconButton>
-                        <Typography variant="title" color="inherit" className={classes.grow}>
-                        Photos
+                        <Typography variant="title" color="inherit" className={authorClassNames}>
+                        PERFECT TODOLIST APPLICATION CREATED BY ELMAN HUSEYNOV BASED ON REACT JS
                         </Typography>
                         {auth && (
                         <div>
@@ -145,7 +150,7 @@ class Tasks extends Component{
                             open={open}
                             onClose={this.handleClose}
                             >
-                            <MenuItem onClick={this.handleClose}>Logout</MenuItem>
+                            <MenuItem onClick={this.handleLogout}>Logout</MenuItem>
                             </Menu>
                         </div>
                         )}
@@ -189,8 +194,10 @@ let mapStateToProps = (state) => {
 
 let mapDispatchToProps = (dispatch) => {
     return{
+        logout: () => dispatch(actionsList.logout()),
         taskListLOAD: (token, userID) => dispatch(actionsList.initTasks(token, userID)),
         newTaskStatusUpdate: () => dispatch({ type:actionTypes.newTaskStatusUpdate}),
+        loadTrigger:() => dispatch({type:actionTypes.loadModeOn}),
         newTaskHeaderHandler: (ev) => dispatch({ type:actionTypes.newTaskHeaderHandler, value:ev}),
         newTaskDescHandler: (ev) => dispatch({ type:actionTypes.newTaskDescHandler, value:ev}),
         addNewTask: () => dispatch({ type: actionTypes.addNewTask})

@@ -38,8 +38,6 @@ button{
 .FieldGroup{
   width: 600px;
   padding: 25px;
-  margin:auto;
-  border:1px solid #000;
   margin: 10px auto;
 }
 
@@ -262,6 +260,7 @@ NavigationCover h1{
     width: 100vw !important;
   }
   .authorText {
+    text-align: center;
     font-size: 15px !important;
   }
 
@@ -269,4 +268,8 @@ NavigationCover h1{
     padding: 15px 0;
   }
 
+}
+
+.author{
+  text-align: center;
 }

@@ -8,11 +8,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import SendIcon from '@material-ui/icons/Send';
 import ListItemText from '@material-ui/core/ListItemText';
 import Divider from '@material-ui/core/Divider';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
-
-
-
+import Dialog from './Dialog';
 
 const styles = theme => ({
     root: {
@@ -22,20 +18,32 @@ const styles = theme => ({
     },
 });
 
-const options = [
-    'Show',
-    'Edit',
-    'Delete'
-];
 
-const ITEM_HEIGHT = 48;
 
 class DefaultUI extends Component {
 
     state = {
-        anchorEl: null,
-        selectedIndex: 1,
+        open: false,
+        taskid:'',
+        taskheader:'',
+        taskdesc:'',
+        taskurl:'',
     };
+
+
+    handleClickOpen = () => {
+        this.setState({
+            open: true,
+        });
+    };
+
+    handleClose = value => {
+        this.setState({
+            selectedValue: value,
+            open: false,
+        });
+    };
+
 
     handleClickListItem = event => {
         this.setState({
@@ -43,16 +51,12 @@ class DefaultUI extends Component {
         });
     };
 
-    handleMenuItemClick = (ev, index) => {
-        this.setState({
-            selectedIndex: index,
-            anchorEl: null
-        });
-        let chooseType = ev.nativeEvent.target.textContent;
-        let taskID = ev.nativeEvent.target.attributes.taskid.value;
-        let taskName = ev.nativeEvent.target.attributes.taskname.value;
-        let taskDesc = ev.nativeEvent.target.attributes.taskdesc.value;
-        let taskURL = ev.nativeEvent.target.attributes.taskurl.value;
+    handleMenuItemClick = (value) => {
+        let chooseType = value;
+        let taskID = this.state.taskid;
+        let taskName = this.state.taskheader;
+        let taskDesc = this.state.taskdesc;
+        let taskURL = this.state.taskurl;
 
         switch (chooseType) {
             case 'Show':
@@ -69,16 +73,11 @@ class DefaultUI extends Component {
         }
     };
 
-    handleClose = (ev) => {
-        this.setState({
-            anchorEl: null
-        });
-    };
+
 
     render(){
         
         const { classes } = this.props;
-        const { anchorEl } = this.state;
 
         let taskID = this.props.taskNumber;
         let taskUrl ="task-" + taskID;
@@ -93,7 +92,7 @@ class DefaultUI extends Component {
                         aria-haspopup="true"
                         aria-controls="lock-menu"
                         aria-label="When device is locked"
-                        onClick={this.handleClickListItem}
+                        onClick={this.handleClickOpen}
                     >
                         <ListItemIcon>
                             <SendIcon />
@@ -105,29 +104,21 @@ class DefaultUI extends Component {
                     </ListItem>
                     <Divider />
                 </List>
-                <Menu
-                    id="lock-menu"
-                    anchorEl={anchorEl}
-                    open={Boolean(anchorEl)}
-                    onClose={this.handleClose}
-                    PaperProps={{
-                        style: {
-                        maxHeight: ITEM_HEIGHT * 4.5,
-                        width: '50vw',
-                        maxWidth:'auto'
-                        },
+                <Dialog
+                    selectedValue={this.state.selectedValue}
+                    open={this.state.open}
+                    onClose={(value) => {
+                        this.setState({
+                            taskid: taskID,
+                            taskheader: taskName,
+                            taskdesc: taskDesc,
+                            taskurl: taskUrl,
+                        }, () => {
+                            this.handleClose(value);
+                            this.handleMenuItemClick(value);
+                        });
                     }}
-                >
-                {options.map((option, index) => (
-                    <MenuItem
-                    key={option}
-                    onClick={event => this.handleMenuItemClick(event, index)}
-                    taskurl={taskUrl} taskname={taskName} taskid={taskID} taskdesc={taskDesc}
-                    >
-                    {option}
-                    </MenuItem>
-                ))}
-                </Menu>
+                />
             </div>
         );
     }
