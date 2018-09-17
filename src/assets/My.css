@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css?family=News+Cycle:700');
+
 .about{
   display: flex;
   flex-wrap: wrap;
@@ -8,7 +10,7 @@
 
 
 .App {
-  padding: 5vh 25vw !important;
+  padding: 0 !important;
 }
 
 
@@ -105,7 +107,6 @@ button{
 
 .NavigationCover{
   padding: 30px;
-  border:3px dashed red;
   max-width: 600px;
   display: flex;
   flex-wrap: wrap;
@@ -130,6 +131,29 @@ NavigationCover h1{
 
 .userNav li{
   list-style: none;
+}
+
+.userNav2 li{
+  text-align: center;
+  margin-bottom: 25vh;
+}
+
+.userNav2 li:last-child{
+  margin-bottom: 0;
+}
+
+.userNav2 li a{
+  transition:all .5s;
+  text-decoration: none;
+  color: #fff;
+  font-family: 'News Cycle', sans-serif;
+  font-size: 25px;
+  border-bottom: 1px solid transparent;
+}
+
+.userNav2 li a:hover{
+  text-decoration: none;
+  border-bottom: 1px solid #fff;
 }
 
 .lds-circle {
@@ -168,6 +192,20 @@ NavigationCover h1{
   text-align: center;
 }
 
+.taskListCover{
+  padding: 50px;
+}
+
+.testBlock{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  min-width: 20vw;
+  height: 100vh;
+  background-color: #3f51b5;
+}
+
 .spinnerCover{
   width: 100%;
   height: 100vh;
@@ -180,6 +218,11 @@ NavigationCover h1{
   background-color: #fff;
 }
 
+.navigateButtons{
+  text-align: center;
+}
+
+.navigateButtons:hover,
 .navigateButtons a{
   text-decoration: none;
 }
@@ -189,8 +232,25 @@ NavigationCover h1{
 }
 
 @media screen and (max-width:767px) {
+
+  .userNav li{
+    text-align: center;
+  }
+
+  .NavigationCover h1{
+    text-align: center;
+    font-size: 20px;
+    margin-bottom: 15px;
+  }
+  .logo{
+    margin-bottom: 15px;
+  }
+  .logo img{
+    width: 100px;
+    height: auto;
+  }
   .App {
-    padding: 50px 5vw !important;
+    padding: 20px 5vw !important;
   }
 
   .FieldGroup {
@@ -201,4 +261,12 @@ NavigationCover h1{
 
     width: 100vw !important;
   }
+  .authorText {
+    font-size: 15px !important;
+  }
+
+  .taskListCover {
+    padding: 15px 0;
+  }
+
 }

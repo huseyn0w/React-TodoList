@@ -35,7 +35,7 @@ class ShowFullTask extends Component {
                             <Button onClick={() => goBack()} fullWidth variant="contained" color="primary" className={classes.button}>
                                 Go Back
                             </Button>
-                            <NavLink to="/newTask">
+                            <NavLink to="/newTask" className="navigateButtons">
                                 <Button variant="contained" fullWidth color="secondary" className={classes.button}>
                                     Add New Task
                                 </Button>

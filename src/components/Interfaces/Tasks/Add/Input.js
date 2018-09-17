@@ -78,6 +78,8 @@ class Input extends Component {
     render(){
 
         const { classes } = this.props;
+
+        console.log(this.props);
         
         let redirect = this.state.submitted ? <Redirect to="/tasklist" /> : null;
         return (

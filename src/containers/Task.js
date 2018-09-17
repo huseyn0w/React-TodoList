@@ -114,7 +114,7 @@ class Task extends Component{
                                 </div>
                             )
                         })}
-                        <GoBack />
+                        <GoBack history={taskHistory} />
                     </div>
                     
                 }
