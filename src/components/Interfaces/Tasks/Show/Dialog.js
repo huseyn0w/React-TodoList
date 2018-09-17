@@ -8,16 +8,17 @@ import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import ListItemText from '@material-ui/core/ListItemText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Dialog from '@material-ui/core/Dialog';
-import PersonIcon from '@material-ui/icons/Person';
-import blue from '@material-ui/core/colors/blue';
+import Slideshow from '@material-ui/icons/Slideshow';
+import Edit from '@material-ui/icons/Edit';
+import Delete from '@material-ui/icons/Delete';
 
 
 const actions = ['Show', 'Edit', 'Delete'];
 
 const styles = {
   avatar: {
-    backgroundColor: blue[100],
-    color: blue[600],
+    color: '#000',
+    backgroundColor:'transparent'
   },
 };
 
@@ -31,6 +32,20 @@ class SimpleDialog extends React.Component {
     this.props.onClose(value);
   };
 
+  iconSetup = value => {
+    switch (value) {
+      case 'Show':
+        return <Slideshow />;
+      case 'Edit':
+        return <Edit />;
+      case 'Delete':
+        return <Delete />;
+      default:
+        break;
+    }
+
+  }
+
   render() {
     const { classes, onClose, selectedValue, ...other } = this.props;
 
@@ -43,7 +58,7 @@ class SimpleDialog extends React.Component {
               <ListItem button onClick={() => this.handleListItemClick(action)} key={action}>
                 <ListItemAvatar>
                   <Avatar className={classes.avatar}>
-                    <PersonIcon />
+                  {this.iconSetup(action)}
                   </Avatar>
                 </ListItemAvatar>
                 <ListItemText primary={action} />

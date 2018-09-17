@@ -43,7 +43,7 @@ const Input = (props) => {
 
     let formsaveHander = (ev) =>{
         ev.preventDefault();
-        props.onGoBack();
+        props.onSave();
     }
     return (
         <div className="Field">
