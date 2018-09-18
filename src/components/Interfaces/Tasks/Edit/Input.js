@@ -71,6 +71,17 @@ const Input = (props) => {
                         onChange={props.onDescChange}
                         defaultValue={props.prevDescValue}
                     />
+                    <TextField
+                        id="date"
+                        fullWidth
+                        defaultValue={props.prevDeadlineValue}
+                        label="Task Deadline"
+                        type="date"
+                        onChange ={(ev) => {
+                            console.log(ev.currentTarget.value);
+                            props.onDeadlineChange(ev.currentTarget.value);
+                        }}
+                    />
                     <Button variant="contained" fullWidth color="primary" onClick={formsaveHander} className={classes.button}>
                         Save Changes
                     </Button>

@@ -27,19 +27,20 @@ export const updateTaskState = (updatedObject, taskNumber) => {
         type: actionTypes.saveTask,
         id: taskNumber,
         description: updatedObject[taskNumber].taskDescription,
-        header: updatedObject[taskNumber].taskHeader
+        header: updatedObject[taskNumber].taskHeader,
+        taskDeadline: updatedObject[taskNumber].taskDeadline
     };
 };
 
-export const updateIngridientsBase = (taskNumber, header, description, token, userID) => {
-    console.log(taskNumber + 'it is taskNumber on action.js');
+export const updateIngridientsBase = (taskNumber, header, description, token, userID, taskDeadline) => {
     return dispatch => {
         axios.patch('https://todolist-56a62.firebaseio.com/tasks/tasks.json?auth=' + token,
         { 
          [taskNumber]: {
              taskDescription: description,
              taskHeader: header,
-             userID: userID
+             userID: userID,
+             taskDeadline: taskDeadline
          }
         })
         .then(function (response) {
@@ -71,27 +72,28 @@ export const deleteTaskFromBase = (taskNumber, token) => {
     };
 }
 
-export const addTaskToRedux = (description, header, taskCode) => {
+export const addTaskToRedux = (description, header, taskCode, taskDeadline) => {
     return {
         type: actionTypes.addNewTask,
         description: description,
         header:header,
-        taskCode:taskCode
+        taskCode:taskCode,
+        taskDeadline:taskDeadline
     };
 };
 
-export const addTaskToFirebase = (description, header, token, userID) => {
+export const addTaskToFirebase = (description, header, token, userID, taskDeadline) => {
     return dispatch => {
         axios.post('https://todolist-56a62.firebaseio.com/tasks/tasks.json?auth=' + token,
             {
                 taskDescription:description,
                 taskHeader:header,
-                userID:userID
+                userID:userID,
+                taskDeadline:taskDeadline
             }
         )
         .then(function (response) {
-            console.log(response);
-            dispatch(addTaskToRedux(description, header, response.data.name));
+            dispatch(addTaskToRedux(description, header, response.data.name, taskDeadline));
         })
         .catch(function (error) {
             console.log('problem' + error);

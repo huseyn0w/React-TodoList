@@ -31,6 +31,7 @@ class ShowFullTask extends Component {
                     <div className="FieldGroup">
                         <h2>{taskObj.taskHeader}</h2>
                         <p>{taskObj.taskDescription}</p>
+                        <p>Deadline: <strong>{taskObj.taskDeadline}</strong></p>
                         <div>
                             <Button onClick={() => goBack()} fullWidth variant="contained" color="primary" className={classes.button}>
                                 Go Back

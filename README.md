@@ -1,4 +1,4 @@
-# React Js Perfect TodoList Application
+# React JS Perfect TodoList Application
 
 ## Todo List Application created with React JS by Elman Huseynov. 
 
@@ -12,7 +12,7 @@
 **Features**
 - Signup/Login to see your personal tasks
 - Simple UI which created with Material UI
-- *Task Deadline time picker (Soon)*
+- Task Deadline time picker
 - *Task Completed Checkbox filter (Soon)*
 
 **Technologies that used in creation of this app:**

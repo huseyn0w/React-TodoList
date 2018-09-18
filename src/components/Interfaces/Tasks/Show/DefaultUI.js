@@ -83,6 +83,7 @@ class DefaultUI extends Component {
         let taskUrl ="task-" + taskID;
         let taskName = this.props.taskName;
         let taskDesc = this.props.taskDesc;
+        let taskDeadline = this.props.taskDeadline;
 
         return (
             <div className={classes.root}>
@@ -99,7 +100,7 @@ class DefaultUI extends Component {
                         </ListItemIcon>
                         <ListItemText
                             primary={taskName}
-                            secondary="Here will be a deadline"
+                            secondary={taskDeadline}
                         />
                     </ListItem>
                     <Divider />

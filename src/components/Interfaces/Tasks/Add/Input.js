@@ -35,6 +35,16 @@ const styles = theme => ({
     },
 });
 
+const currentDate = new Date();
+let currentMonth = currentDate.getMonth() + 1;
+const currentDay = currentDate.getDate();
+
+if (currentMonth < 10) {
+    currentMonth = '0' + currentMonth;
+}
+
+const deadline = new Date().getFullYear() + '-' + currentMonth + '-' + currentDay;
+
 
 class Input extends Component {
     
@@ -42,6 +52,7 @@ class Input extends Component {
         submitted:false,
         taskHeader:null,
         taskDescription:null,
+        taskDeadline:deadline,
         errorMessage:null,
     }
 
@@ -53,11 +64,16 @@ class Input extends Component {
         this.setState({taskDescription: ev.target.value});
     }
 
+    taskDeadlineHandler = (ev, date) => {
+        this.setState({ taskDeadline: date });
+    }
+
     saveNewTaskHander = (ev) => {
         ev.preventDefault();
         //If Validation Succcess
         let taskHeader = this.state.taskHeader;
         let taskDescription = this.state.taskDescription;
+        let taskDeadline = this.state.taskDeadline;
         if (taskHeader === null || taskHeader.length === 0){
             this.setState({errorMessage: <h3 className="loginFail">Task header field is empty!</h3>});
             return false;
@@ -66,20 +82,24 @@ class Input extends Component {
             this.setState({errorMessage: <h3 className="loginFail">Task description field is empty!</h3>});
             return false;
         }
+        else if (taskDeadline === null || taskDeadline.length === 0){
+            this.setState({ errorMessage: <h3 className="loginFail">Task Deadline is not set!</h3> });
+            return false;
+        }
         else{
             this.setState({submitted:true});
             this.props.loadStatusHandler();
-            this.props.addNewTask(this.state.taskDescription, this.state.taskHeader,this.props.token,this.props.userID);
+            this.props.addNewTask(this.state.taskDescription, this.state.taskHeader,this.props.token,this.props.userID, this.state.taskDeadline);
         }
         
     }
 
 
+
+
     render(){
 
         const { classes } = this.props;
-
-        console.log(this.props);
         
         let redirect = this.state.submitted ? <Redirect to="/tasklist" /> : null;
         return (
@@ -109,6 +129,14 @@ class Input extends Component {
                                 rowsMax={10}
                                 onChange={this.taskDescHandler}
                             />
+                            <TextField
+                                id="date"
+                                fullWidth
+                                defaultValue={this.state.taskDeadline}
+                                label="Task Deadline"
+                                type="date"
+                                onChange = {(ev) => this.taskDeadlineHandler(ev, ev.currentTarget.value)}
+                            />
                             <Button variant="contained" fullWidth color="primary" onClick={this.saveNewTaskHander} className={classes.button}>
                                 Save
                             </Button>
@@ -135,7 +163,7 @@ let mapDispatchToProps = (dispatch) => {
         newTaskHeaderHandler: (ev) => dispatch({ type:actionTypes.newTaskHeaderHandler, value:ev}),
         newTaskDescHandler: (ev) => dispatch({ type:actionTypes.newTaskDescHandler, value:ev}),
         loadStatusHandler: () => dispatch({ type:actionTypes.loadModeOn}),
-        addNewTask: (description, header,token,userID) => dispatch(actionList.addTaskToFirebase(description, header,token,userID))
+        addNewTask: (description, header,token,userID,taskDeadline) => dispatch(actionList.addTaskToFirebase(description, header,token,userID,taskDeadline))
     }
 }
 
