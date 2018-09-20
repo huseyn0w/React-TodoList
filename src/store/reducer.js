@@ -48,7 +48,8 @@ const Tasks = (state = initialState, action) => {
                     [actionCode]: {
                         taskHeader: action.header,
                         taskDescription: action.description,
-                        taskDeadline: action.taskDeadline
+                        taskDeadline: action.taskDeadline,
+                        taskStatus: action.taskStatus
                     },
                 },
                 NewtaskStatus:false,
@@ -64,6 +65,7 @@ const Tasks = (state = initialState, action) => {
            taskObj[action.id].taskHeader = action.header;
            taskObj[action.id].taskDescription = action.description;
            taskObj[action.id].taskDeadline = action.taskDeadline;
+           taskObj[action.id].taskStatus = action.taskStatus;
            return {
                ...state,
                tasks: taskObj,

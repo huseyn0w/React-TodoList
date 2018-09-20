@@ -4,6 +4,9 @@ import Button from '@material-ui/core/Button';
 import { withStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
 import TextField from '@material-ui/core/TextField';
+import FormGroup from '@material-ui/core/FormGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Switch from '@material-ui/core/Switch';
 
 const styles = theme => ({
     button: {
@@ -78,10 +81,21 @@ const Input = (props) => {
                         label="Task Deadline"
                         type="date"
                         onChange ={(ev) => {
-                            console.log(ev.currentTarget.value);
                             props.onDeadlineChange(ev.currentTarget.value);
                         }}
                     />
+                    <FormGroup row>
+                        <FormControlLabel
+                        control={
+                            <Switch
+                            checked={props.prevTaskStatus}
+                            onChange={() => props.onStatusChange()}
+                            value="taskStatus"
+                            />
+                        }
+                        label={props.prevTaskStatus ? 'Task Status: Done' : 'Task Status: Pending'}
+                        />
+                    </FormGroup>
                     <Button variant="contained" fullWidth color="primary" onClick={formsaveHander} className={classes.button}>
                         Save Changes
                     </Button>

@@ -28,11 +28,12 @@ export const updateTaskState = (updatedObject, taskNumber) => {
         id: taskNumber,
         description: updatedObject[taskNumber].taskDescription,
         header: updatedObject[taskNumber].taskHeader,
-        taskDeadline: updatedObject[taskNumber].taskDeadline
+        taskDeadline: updatedObject[taskNumber].taskDeadline,
+        taskStatus: updatedObject[taskNumber].taskStatus
     };
 };
 
-export const updateIngridientsBase = (taskNumber, header, description, token, userID, taskDeadline) => {
+export const updateIngridientsBase = (taskNumber, header, description, token, userID, taskDeadline, taskStatus) => {
     return dispatch => {
         axios.patch('https://todolist-56a62.firebaseio.com/tasks/tasks.json?auth=' + token,
         { 
@@ -40,7 +41,8 @@ export const updateIngridientsBase = (taskNumber, header, description, token, us
              taskDescription: description,
              taskHeader: header,
              userID: userID,
-             taskDeadline: taskDeadline
+             taskDeadline: taskDeadline,
+             taskStatus: taskStatus
          }
         })
         .then(function (response) {
@@ -78,7 +80,8 @@ export const addTaskToRedux = (description, header, taskCode, taskDeadline) => {
         description: description,
         header:header,
         taskCode:taskCode,
-        taskDeadline:taskDeadline
+        taskDeadline:taskDeadline,
+        taskStatus:false
     };
 };
 
@@ -89,7 +92,8 @@ export const addTaskToFirebase = (description, header, token, userID, taskDeadli
                 taskDescription:description,
                 taskHeader:header,
                 userID:userID,
-                taskDeadline:taskDeadline
+                taskDeadline:taskDeadline,
+                taskStatus:false
             }
         )
         .then(function (response) {

@@ -16,18 +16,20 @@ class Task extends Component{
         currentTaskID:"",
         currentTaskHeader:"",
         currentTaskDesc:"",
-        currentTaskDeadline:""
+        currentTaskDeadline:"",
+        currentTaskStatus:false
     }
 
 
 
-    editMode = (id, header, desc, deadline) => {
+    editMode = (id, header, desc, deadline, status) => {
         let currObj = {
             ...this.state,
             currentTaskID: id,
             currentTaskHeader: header,
             currentTaskDesc: desc,
-            currentTaskDeadline: deadline
+            currentTaskDeadline: deadline,
+            currentTaskStatus: status
         };
         this.setState({
             edit:!this.state.edit,
@@ -35,6 +37,7 @@ class Task extends Component{
             currentTaskHeader: currObj.currentTaskHeader,
             currentTaskDesc: currObj.currentTaskDesc,
             currentTaskDeadline: currObj.currentTaskDeadline,
+            currentTaskStatus: currObj.currentTaskStatus,
         });
     }
 
@@ -42,12 +45,16 @@ class Task extends Component{
         this.setState({ currentTaskHeader: ev.target.value});
     }
 
-    taskDeadlineHAndler = (value) => {
+    taskDeadlineHandler = (value) => {
         this.setState({ currentTaskDeadline: value});
     }
 
     taskDescHandler = (ev) => {
         this.setState({ currentTaskDesc: ev.target.value});
+    }
+
+    taskStatusHandler = () => {
+        this.setState({ currentTaskStatus: !this.state.currentTaskStatus});
     }
 
     taskRemoveHandler = (key) =>{
@@ -62,8 +69,9 @@ class Task extends Component{
         let token = this.props.token;
         let userID = this.props.userID;
         let deadline = this.state.currentTaskDeadline;
+        let taskStatus = this.state.currentTaskStatus;
         this.props.loadTrigger();
-        this.props.saveTask(taskID, newTaskHeader, newTaskDesc, token, userID, deadline);
+        this.props.saveTask(taskID, newTaskHeader, newTaskDesc, token, userID, deadline, taskStatus);
         this.setState({edit:false})
     }
 
@@ -84,7 +92,7 @@ class Task extends Component{
         const taskObj = this.props.tasks;
         let taskHistory = this.props.history;
         let taskRemove = this.taskRemoveHandler;
-        let taskEdit = (id, header, description, deadline) => this.editMode(id, header, description, deadline);
+        let taskEdit = (id, header, description, deadline, taskStatus) => this.editMode(id, header, description, deadline, taskStatus);
             
         return (
             <div className="TaskInterface">
@@ -93,9 +101,11 @@ class Task extends Component{
                         <EditTask
                             onHeaderChange={(ev) => this.taskHeaderHandler(ev)}
                             onDescChange={(ev) => this.taskDescHandler(ev)}
-                            onDeadlineChange={(ev) => this.taskDeadlineHAndler(ev)}
+                            onDeadlineChange={(ev) => this.taskDeadlineHandler(ev)}
+                            onStatusChange={(ev) => this.taskStatusHandler(ev)}
                             onSave={this.saveVal}
                             onGoBack={this.goBacktoTheTaskList}
+                            prevTaskStatus={this.state.currentTaskStatus}
                             prevHeaderValue={this.state.currentTaskHeader}
                             prevDescValue={this.state.currentTaskDesc}
                             prevDeadlineValue={this.state.currentTaskDeadline}
@@ -109,6 +119,7 @@ class Task extends Component{
                             let taskName = taskObj[key].taskHeader;
                             let taskDesc2 = taskObj[key].taskDescription;
                             let taskDeadlinePeriod = taskObj[key].taskDeadline;
+                            let taskStatus = taskObj[key].taskStatus;
                             return (
                                 <div key={key}>
                                     <TaskItem
@@ -118,10 +129,10 @@ class Task extends Component{
                                         taskDesc={taskDesc2}
                                         taskDeadline={taskDeadlinePeriod}
                                         onEditStart={() => {
-                                            taskEdit(key, taskName, taskDesc2, taskDeadlinePeriod)
+                                            taskEdit(key, taskName, taskDesc2, taskDeadlinePeriod, taskStatus)
                                         }}
                                         onRemove={(id) => taskRemove(id)}
-                                        onSave={(taskID, taskHeader, taskDescription, taskDeadlinePeriod) => this.props.saveTask(taskID, taskHeader, taskDescription, taskDeadlinePeriod)}
+                                        onSave={(taskID, taskHeader, taskDescription, taskDeadlinePeriod, taskStatus) => this.props.saveTask(taskID, taskHeader, taskDescription, taskDeadlinePeriod, taskStatus)}
                                         taskNumber={key}
                                         onDelete={(key) => this.props.onRemoveTask(key)}
                                     />
@@ -154,7 +165,7 @@ let mapDispatchToProps = (dispatch) => {
         newTaskStatusUpdate: () => dispatch({ type:actionTypes.newTaskStatusUpdate}),
         newTaskHandler: (ev) => dispatch({ type: actionTypes.newTaskHandler, text: ev}),
         addNewTask: () => dispatch({ type: actionTypes.addNewTask}),
-        saveTask: (id, header, description, token, userID, deadline) => dispatch(actionsList.updateIngridientsBase(id, header, description, token, userID, deadline)),
+        saveTask: (id, header, description, token, userID, deadline, taskStatus) => dispatch(actionsList.updateIngridientsBase(id, header, description, token, userID, deadline, taskStatus)),
     }
 }
 
