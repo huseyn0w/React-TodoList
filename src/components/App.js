@@ -6,6 +6,7 @@
   import About from './Interfaces/About/About';
   import NewTask from './Interfaces/Tasks/Add/Input';
   import FullTask from './Interfaces/Tasks/Show/FullTask';
+  import Edit from './Interfaces/Tasks/Edit/Edit';
   import Navigation from './Interfaces/Navigation/Navigation';
   import PropTypes from 'prop-types';
   import { withStyles } from '@material-ui/core/styles';
@@ -131,7 +132,10 @@
         <Route path="/tasklist" component={TaskList} exact />
         <Route path="/about" component={About} />
         <Route path="/newTask" render={() => NewTaskComponent} />
-        <Route path="/task-:id" component={FullTask} exact />
+        <Route path="/show/:id" component={FullTask} exact />
+        <Route path="/edit/:id" component={Edit} exact />
+        <Route path="/edit/" component={NotFound} exact />
+        <Route path="/show/" component={NotFound} exact />
         <Route path="/signup" render={() => NavigationComponent}/>
         <Route path="/" render={() => NavigationComponent} />
         <Route component={NotFound} exact />

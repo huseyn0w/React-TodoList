@@ -7,6 +7,7 @@ export const saveTask = "SAVE_TASK";
 export const newTaskHeaderHandler = "NEW_TASK_HEADER_HANDLER";
 export const newTaskDescHandler = "NEW_TASK_DESC_HANDLER";
 export const taskListLOAD = "TASK_LIST_LOAD";
+export const loadCurrentTask = "LOAD_CURRENT_TASK";
 export const testAction = "TEST_ACTION";
 export const loadModeOn = "LOAD_MODE_ON";
 export const tryLogin = "TRY_LOGIN";

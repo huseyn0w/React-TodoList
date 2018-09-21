@@ -13,7 +13,8 @@ let initialState = {
     NewtaskStatus: false,
     currenTaskHeader: "",
     currenTaskDesc: "",
-    loaded:false
+    loaded:false,
+    currentTaskObj:{}
 }
 
 
@@ -94,6 +95,12 @@ const Tasks = (state = initialState, action) => {
                 ...state,
                 tasks:action.finalObj,
                 loaded:true
+            }
+        case actionTypes.loadCurrentTask:
+            return {
+                ...state,
+                currentTaskObj:action.finalObj,
+                loaded: true
             }
         case actionTypes.loginSuccess:
             return {

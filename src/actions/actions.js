@@ -48,8 +48,8 @@ export const updateIngridientsBase = (taskNumber, header, description, token, us
         .then(function (response) {
             dispatch(updateTaskState(response.data, taskNumber));
         })
-        .catch(function (error) {
-            console.log('problem' + error);
+        .catch(function (response) {
+            console.log(response);
         })
     };
 }
@@ -191,3 +191,23 @@ export const userSignUp = (email,password) => {
     };
 };
 
+export const loadCurrentTask = (initialObjectState) => {
+    return {
+        type: actionTypes.loadCurrentTask,
+        finalObj: initialObjectState
+    };
+};
+
+
+export const oneTask = (token, userID, taskID) => {
+    return dispatch => {
+        let queryString = 'https://todolist-56a62.firebaseio.com/tasks/tasks/' + taskID + '.json?auth=' + token;
+        axios.get(queryString)
+        .then(function (response) {
+            let finalObj = {
+                ...response.data
+            }
+            dispatch(loadCurrentTask(finalObj));
+        });
+    };
+};

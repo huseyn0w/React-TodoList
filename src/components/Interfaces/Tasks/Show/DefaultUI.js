@@ -23,11 +23,13 @@ const styles = theme => ({
 class DefaultUI extends Component {
 
     state = {
+        edit: false,
         open: false,
         taskid:'',
         taskheader:'',
         taskdesc:'',
-        taskurl:'',
+        showTaskURL: '',
+        editTaskURL: '',
     };
 
 
@@ -54,16 +56,16 @@ class DefaultUI extends Component {
     handleMenuItemClick = (value) => {
         let chooseType = value;
         let taskID = this.state.taskid;
-        let taskName = this.state.taskheader;
-        let taskDesc = this.state.taskdesc;
-        let taskURL = this.state.taskurl;
+        let showTaskURL = this.state.showTaskURL;
+        let editTaskURL = this.state.editTaskURL;
 
         switch (chooseType) {
             case 'Show':
-                this.props.taskHistory.push(taskURL);
+                this.props.taskHistory.push(showTaskURL);
                 break;
             case 'Edit':
-                this.props.onEditStart(taskID,taskName,taskDesc);
+                this.props.taskHistory.push(editTaskURL);
+                //this.props.onEditStart(taskID,taskName,taskDesc);
                 break;
             case 'Delete':
                 this.props.onRemove(taskID);
@@ -80,7 +82,8 @@ class DefaultUI extends Component {
         const { classes } = this.props;
 
         let taskID = this.props.taskNumber;
-        let taskUrl ="task-" + taskID;
+        let showTaskURL ="show/" + taskID;
+        let editTaskURL = "edit/" + taskID;
         let taskName = this.props.taskName;
         let taskDesc = this.props.taskDesc;
         let taskDeadline = this.props.taskDeadline;
@@ -110,10 +113,12 @@ class DefaultUI extends Component {
                     open={this.state.open}
                     onClose={(value) => {
                         this.setState({
+                            edit:true,
                             taskid: taskID,
                             taskheader: taskName,
                             taskdesc: taskDesc,
-                            taskurl: taskUrl,
+                            showTaskURL: showTaskURL,
+                            editTaskURL: editTaskURL,
                         }, () => {
                             this.handleClose(value);
                             this.handleMenuItemClick(value);

@@ -10,6 +10,10 @@ import * as actionTypes from '../actions/actionTypes';
 
 class Tasks extends Component{
 
+    state = {
+        editMode:true
+    }
+
 
     taskHeaderHandler = (header) => {
         this.props.newTaskHeaderHandler(header);
@@ -22,6 +26,12 @@ class Tasks extends Component{
     componentDidMount() {
         this.props.taskListLOAD(this.props.token, this.props.userID);
     }
+
+    componentWillReceiveProps() {
+        this.setState({editMode:false})
+    }
+
+
     
     render(){
 
@@ -30,7 +40,10 @@ class Tasks extends Component{
         return(
                 
             <div className="taskListCover">
-                {this.props.loaded  ? 
+                {this.state.editMode ?
+                        <Spinner />
+                    :
+                this.props.loaded ? 
                     taskListObjectSize > 0 ?
                     <div>
                         <HasTasks />

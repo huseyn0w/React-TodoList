@@ -1,50 +1,56 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import NotFound from '../../404';
-import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
-import {NavLink} from 'react-router-dom';
+import FullTaskInterface from './FullStackInterface';
+import * as actionTypes from '../../../../actions/actionTypes';
+import * as actionsList from '../../../../actions/actions';
+import Spinner from '../../../Interfaces/Tasks/Show/Spinner';
 
-const styles = theme => ({
-    button: {
-        margin: theme.spacing.unit,
-    },
-    input: {
-        display: 'none',
-    },
-});
 
 
 class ShowFullTask extends Component {
+
+    state = {
+        currentTaskObj: '',
+        loading:true
+    }
+
+    componentWillReceiveProps(){
+        this.setState({loading:false});
+    }
+
+    componentDidMount(){
+
+        let taskID = this.props.match.params.id,
+            token = this.props.token,
+            userID = this.props.userID;
+        this.props.oneTask(token, userID, taskID);
+
+    }
+
+    goBack = () => {
+        this.props.history.goBack();
+    }
+
     render(){
-        const { classes } = this.props;
-        let taskObj;
-        let taskID = this.props.match.params.id;
-        taskObj = this.props.tasks[taskID];
-        let goBack = () => {
-            return this.props.history.goBack();
-        }
+        let taskObj = null;
+        let loadStatus = this.state.loading;
+        taskObj = this.props.currentTaskObj;
         return (
             <div>
-                {taskObj ? 
-                    <div className="FieldGroup">
-                        <h2>{taskObj.taskHeader}</h2>
-                        <p>{taskObj.taskDescription}</p>
-                        <p>Deadline: <strong>{taskObj.taskDeadline}</strong></p>
-                        <div>
-                            <Button onClick={() => goBack()} fullWidth variant="contained" color="primary" className={classes.button}>
-                                Go Back
-                            </Button>
-                            <NavLink to="/newTask" className="navigateButtons">
-                                <Button variant="contained" fullWidth color="secondary" className={classes.button}>
-                                    Add New Task
-                                </Button>
-                            </NavLink>
-                        </div>
-                    </div>
+                {loadStatus === true ?
+                    <Spinner /> 
                 :
-                <NotFound />
+                loadStatus === false && Object.keys(taskObj).length > 0 ?
+                <FullTaskInterface 
+                    header={taskObj.taskHeader}
+                    description={taskObj.taskDescription}
+                    deadline={taskObj.taskDeadline}
+                    status={taskObj.taskStatus ? 'Done' : 'Pending'}
+                    ongoback={this.goBack}
+                />
+                :
+                    <NotFound />
                 }
             </div>
         );
@@ -54,13 +60,19 @@ class ShowFullTask extends Component {
 
 let matStateToProps = (state) =>{
     return {
-        tasks:state.tasks
+        userID: state.userID,
+        token: state.tokenID,
+        currentTaskObj:state.currentTaskObj
     }
 }
 
-ShowFullTask.propTypes = {
-    classes: PropTypes.object.isRequired,
-};
+let mapDispatchToProps = (dispatch) => {
+    return{
+        loadTrigger:() => dispatch({type:actionTypes.loadModeOn}),
+        oneTask: (token, userID, taskID) => dispatch(actionsList.oneTask(token, userID, taskID)),
+    }
+}
 
 
-export default connect(matStateToProps)(withStyles(styles)(ShowFullTask));
+
+export default connect(matStateToProps, mapDispatchToProps)(ShowFullTask);

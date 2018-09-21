@@ -222,7 +222,7 @@ NavigationCover h1{
 
 .navigateButtons:hover,
 .navigateButtons a{
-  text-decoration: none;
+  text-decoration: none !important;
 }
 
 .materialButton:hover{

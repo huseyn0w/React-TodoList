@@ -1,10 +1,22 @@
 import React from 'react';
 import '../../../assets/My.css';
 import author from '../../../profile.jpg';
-
+import Button from '@material-ui/core/Button';
+import { withStyles } from '@material-ui/core/styles';
+import PropTypes from 'prop-types';
 import {NavLink} from 'react-router-dom';
 
+const styles = theme => ({
+    button: {
+        margin: theme.spacing.unit,
+    },
+    input: {
+        display: 'none',
+    },
+});
+
 const Navigation = (props) => {
+    const { classes } = props;
     return(
         <div className="NavigationCover">
             <div>
@@ -25,10 +37,20 @@ const Navigation = (props) => {
                     <li>Firebase</li>
                     <li>Async</li>
                 </ul>
-                <NavLink to="/" className="btn btn-success">Go Back</NavLink>
+                <div className="navigateButtons">
+                    <NavLink to="/">
+                        <Button variant="contained" color="secondary"  className={classes.button}>
+                            Go Back
+                        </Button>
+                    </NavLink>
+                </div>
             </div>
         </div>
     );
 }
 
-export default Navigation;
+Navigation.propTypes = {
+    classes: PropTypes.object.isRequired,
+};
+
+export default withStyles(styles)(Navigation);

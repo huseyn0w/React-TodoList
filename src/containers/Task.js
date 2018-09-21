@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import {withRouter} from 'react-router-dom';
-import EditTask from '../components/Interfaces/Tasks/Edit/Input';
 import {connect} from 'react-redux';
 import TaskItem from '../components/Interfaces/Tasks/Show/DefaultUI';
 import * as actionTypes from '../actions/actionTypes';
@@ -8,140 +7,92 @@ import '../assets/My.css';
 import '../assets/bootstrap.min.css';
 import GoBack from '../components/Interfaces/Navigation/goBack';
 import * as actionsList from '../actions/actions';
+import Button from '@material-ui/core/Button';
+import Snackbar from '@material-ui/core/Snackbar';
 
 class Task extends Component{
 
     state = {
-        edit:false,
-        currentTaskID:"",
-        currentTaskHeader:"",
-        currentTaskDesc:"",
-        currentTaskDeadline:"",
-        currentTaskStatus:false
+        modeType:'',
+        open: false,
+        vertical: 'top',
+        horizontal: 'center',
+        editMode:false
     }
 
 
-
-    editMode = (id, header, desc, deadline, status) => {
-        let currObj = {
-            ...this.state,
-            currentTaskID: id,
-            currentTaskHeader: header,
-            currentTaskDesc: desc,
-            currentTaskDeadline: deadline,
-            currentTaskStatus: status
-        };
-        this.setState({
-            edit:!this.state.edit,
-            currentTaskID: currObj.currentTaskID,
-            currentTaskHeader: currObj.currentTaskHeader,
-            currentTaskDesc: currObj.currentTaskDesc,
-            currentTaskDeadline: currObj.currentTaskDeadline,
-            currentTaskStatus: currObj.currentTaskStatus,
-        });
-    }
-
-    taskHeaderHandler = (ev) => {
-        this.setState({ currentTaskHeader: ev.target.value});
-    }
-
-    taskDeadlineHandler = (value) => {
-        this.setState({ currentTaskDeadline: value});
-    }
-
-    taskDescHandler = (ev) => {
-        this.setState({ currentTaskDesc: ev.target.value});
-    }
-
-    taskStatusHandler = () => {
-        this.setState({ currentTaskStatus: !this.state.currentTaskStatus});
-    }
-
-    taskRemoveHandler = (key) =>{
-        this.props.loadTrigger();
-        this.props.onRemoveTask(key,this.props.token);
-    }
-
-    saveVal = () => {
-        let taskID = this.state.currentTaskID;
-        let newTaskHeader = this.state.currentTaskHeader;
-        let newTaskDesc = this.state.currentTaskDesc;
-        let token = this.props.token;
-        let userID = this.props.userID;
-        let deadline = this.state.currentTaskDeadline;
-        let taskStatus = this.state.currentTaskStatus;
-        this.props.loadTrigger();
-        this.props.saveTask(taskID, newTaskHeader, newTaskDesc, token, userID, deadline, taskStatus);
-        this.setState({edit:false})
-    }
 
     goBacktoTheTaskList = () =>{
+        this.setState({modeType:'Edit'},() => {console.log('salam')})
+    }
+
+    taskRemoveHandler = (key) => {
         this.props.loadTrigger();
-        this.setState({edit:false});
+        this.props.onRemoveTask(key, this.props.token);
     }
 
 
-    deleteMode(taskID){
-        this.props.onDelete(taskID);
-    }
+    handleClick = state => () => {
+        this.setState({ open: true, ...state });
+    };
 
+    handleClose = () => {
+        this.setState({ open: false });
+    };
+
+    
     
 
     render(){
 
+        const { vertical, horizontal, open } = this.state;
         const taskObj = this.props.tasks;
         let taskHistory = this.props.history;
         let taskRemove = this.taskRemoveHandler;
-        let taskEdit = (id, header, description, deadline, taskStatus) => this.editMode(id, header, description, deadline, taskStatus);
             
         return (
             <div className="TaskInterface">
-                {this.state.edit ? 
+                <div>
+                    <h2 className="taskListHeader">Tasklist:</h2>
+                    {Object.keys(taskObj).map(function (key) {
+                        let taskName = taskObj[key].taskHeader;
+                        let taskDesc2 = taskObj[key].taskDescription;
+                        let taskDeadlinePeriod = taskObj[key].taskDeadline;
+                        return (
+                            <div key={key}>
+                                <TaskItem
+                                    key={key}
+                                    taskHistory={taskHistory}
+                                    taskName={taskName}
+                                    taskDesc={taskDesc2}
+                                    taskDeadline={taskDeadlinePeriod}
+                                    onRemove={(id) => taskRemove(id)}
+                                    onSave={(taskID, taskHeader, taskDescription, taskDeadlinePeriod, taskStatus) => this.props.saveTask(taskID, taskHeader, taskDescription, taskDeadlinePeriod, taskStatus)}
+                                    taskNumber={key}
+                                    onDelete={(key) => this.props.onRemoveTask(key)}
+                                />
+                            </div>
+                        )
+                    })}
+                    <GoBack history={taskHistory} />
+                </div>
+                {this.state.modeType === "Edit" ? 
                     <div>
-                        <EditTask
-                            onHeaderChange={(ev) => this.taskHeaderHandler(ev)}
-                            onDescChange={(ev) => this.taskDescHandler(ev)}
-                            onDeadlineChange={(ev) => this.taskDeadlineHandler(ev)}
-                            onStatusChange={(ev) => this.taskStatusHandler(ev)}
-                            onSave={this.saveVal}
-                            onGoBack={this.goBacktoTheTaskList}
-                            prevTaskStatus={this.state.currentTaskStatus}
-                            prevHeaderValue={this.state.currentTaskHeader}
-                            prevDescValue={this.state.currentTaskDesc}
-                            prevDeadlineValue={this.state.currentTaskDeadline}
-                            taskID={this.state.currentTaskID}
+                        <Button onClick={this.handleClick({ vertical: 'bottom', horizontal: 'left' })}>
+                            Bottom-Left
+                        </Button> 
+                        <Snackbar
+                            anchorOrigin={{ vertical, horizontal }}
+                            open={open}
+                            onClose={this.handleClose}
+                            ContentProps={{
+                                'aria-describedby': 'message-id',
+                            }}
+                            message={<span id="message-id">I love snacks</span>}
                         />
                     </div>
                     :
-                    <div>
-                        <h2 className="taskListHeader">Tasklist:</h2>
-                        {Object.keys(taskObj).map(function (key) {
-                            let taskName = taskObj[key].taskHeader;
-                            let taskDesc2 = taskObj[key].taskDescription;
-                            let taskDeadlinePeriod = taskObj[key].taskDeadline;
-                            let taskStatus = taskObj[key].taskStatus;
-                            return (
-                                <div key={key}>
-                                    <TaskItem
-                                        key={key}
-                                        taskHistory={taskHistory}
-                                        taskName={taskName}
-                                        taskDesc={taskDesc2}
-                                        taskDeadline={taskDeadlinePeriod}
-                                        onEditStart={() => {
-                                            taskEdit(key, taskName, taskDesc2, taskDeadlinePeriod, taskStatus)
-                                        }}
-                                        onRemove={(id) => taskRemove(id)}
-                                        onSave={(taskID, taskHeader, taskDescription, taskDeadlinePeriod, taskStatus) => this.props.saveTask(taskID, taskHeader, taskDescription, taskDeadlinePeriod, taskStatus)}
-                                        taskNumber={key}
-                                        onDelete={(key) => this.props.onRemoveTask(key)}
-                                    />
-                                </div>
-                            )
-                        })}
-                        <GoBack history={taskHistory} />
-                    </div>
-                    
+                    null
                 }
             </div>
         );
@@ -162,7 +113,6 @@ let mapDispatchToProps = (dispatch) => {
     return{
         loadTrigger:() => dispatch({type:actionTypes.loadModeOn}),
         onRemoveTask: (id,token) => dispatch(actionsList.deleteTaskFromBase(id,token)),
-        newTaskStatusUpdate: () => dispatch({ type:actionTypes.newTaskStatusUpdate}),
         newTaskHandler: (ev) => dispatch({ type: actionTypes.newTaskHandler, text: ev}),
         addNewTask: () => dispatch({ type: actionTypes.addNewTask}),
         saveTask: (id, header, description, token, userID, deadline, taskStatus) => dispatch(actionsList.updateIngridientsBase(id, header, description, token, userID, deadline, taskStatus)),
