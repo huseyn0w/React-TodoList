@@ -65,7 +65,6 @@ class DefaultUI extends Component {
                 break;
             case 'Edit':
                 this.props.taskHistory.push(editTaskURL);
-                //this.props.onEditStart(taskID,taskName,taskDesc);
                 break;
             case 'Delete':
                 this.props.onRemove(taskID);

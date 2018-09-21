@@ -7,8 +7,7 @@ import '../assets/My.css';
 import '../assets/bootstrap.min.css';
 import GoBack from '../components/Interfaces/Navigation/goBack';
 import * as actionsList from '../actions/actions';
-import Button from '@material-ui/core/Button';
-import Snackbar from '@material-ui/core/Snackbar';
+
 
 class Task extends Component{
 
@@ -32,20 +31,11 @@ class Task extends Component{
     }
 
 
-    handleClick = state => () => {
-        this.setState({ open: true, ...state });
-    };
-
-    handleClose = () => {
-        this.setState({ open: false });
-    };
-
     
     
 
     render(){
 
-        const { vertical, horizontal, open } = this.state;
         const taskObj = this.props.tasks;
         let taskHistory = this.props.history;
         let taskRemove = this.taskRemoveHandler;
@@ -76,24 +66,6 @@ class Task extends Component{
                     })}
                     <GoBack history={taskHistory} />
                 </div>
-                {this.state.modeType === "Edit" ? 
-                    <div>
-                        <Button onClick={this.handleClick({ vertical: 'bottom', horizontal: 'left' })}>
-                            Bottom-Left
-                        </Button> 
-                        <Snackbar
-                            anchorOrigin={{ vertical, horizontal }}
-                            open={open}
-                            onClose={this.handleClose}
-                            ContentProps={{
-                                'aria-describedby': 'message-id',
-                            }}
-                            message={<span id="message-id">I love snacks</span>}
-                        />
-                    </div>
-                    :
-                    null
-                }
             </div>
         );
     }

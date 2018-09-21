@@ -13,7 +13,7 @@
 - Signup/Login to see your personal tasks
 - Simple UI which created with Material UI
 - Task Deadline time picker
-- Task Completed Checkbox filter (Soon)
+- Task Completed Checkbox filter
 
 **Technologies that used in creation of this app:**
 - React JS (Core)

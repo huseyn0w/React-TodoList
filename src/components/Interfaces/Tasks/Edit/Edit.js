@@ -69,7 +69,10 @@ class Edit extends Component {
         let token = this.props.token;
         let userID = this.props.userID;
         this.props.saveTask(taskID, newTaskHeader, newTaskDesc, token, userID, deadline, taskStatus);
-        this.props.history.goBack();
+        this.props.history.push({
+            pathname: '/tasklist',
+            workType:"Editing"
+        });
     }
 
 

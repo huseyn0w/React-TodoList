@@ -5,13 +5,19 @@ import NoTasks from '../components/Interfaces/Tasks/Add/DefaultUI';
 import * as actionsList from '../actions/actions';
 import Spinner from '../components/Interfaces/Tasks/Show/Spinner';
 import * as actionTypes from '../actions/actionTypes';
+import Snackbar from '@material-ui/core/Snackbar';
 
 
 
 class Tasks extends Component{
 
     state = {
-        editMode:true
+        editMode:true,
+        snackbar:false,
+        open: false,
+        vertical: 'bottom',
+        horizontal: 'left',
+        message:"Done"
     }
 
 
@@ -27,15 +33,41 @@ class Tasks extends Component{
         this.props.taskListLOAD(this.props.token, this.props.userID);
     }
 
+    handleClick = state => () => {
+        this.setState({ open: true, ...state });
+    };
+
+    handleClose = () => {
+        this.setState({ open: false });
+    };
+
+
     componentWillReceiveProps() {
-        this.setState({editMode:false})
+        const message = this.props.history.location.workType;
+        if(message === "Editing"){
+            this.setState({ editMode:false, open: true, snackbar:true, message: "Task edited successfully"})
+        }
+        else if(message === "Deleting"){
+            this.setState({ editMode:false, open: true, snackbar:true, message: "Task deleted successfully"})
+        }
+        else if(message === "Adding"){
+            this.setState({ editMode:false, open: true, snackbar:true, message: "Task added successfully"})
+        }
+        else{
+            this.setState({editMode:false});
+        }
+        this.handleClick({ vertical: 'bottom', horizontal: 'left' });
     }
+
 
 
     
     render(){
+        const { vertical, horizontal, open } = this.state;
 
         const taskListObjectSize = Object.keys(this.props.tasks).length;
+
+        let message = this.state.message;
 
         return(
                 
@@ -47,6 +79,20 @@ class Tasks extends Component{
                     taskListObjectSize > 0 ?
                     <div>
                         <HasTasks />
+                        {
+                            this.state.snackbar ?
+                            <Snackbar
+                                anchorOrigin={{ vertical, horizontal }}
+                                open={open}
+                                onClose={this.handleClose}
+                                ContentProps={{
+                                    'aria-describedby': 'message-id',
+                                }}
+                                message={<span id="message-id">{message}</span>}
+                            />
+                            :
+                            null
+                        }
                     </div>
                     :                 
                     <NoTasks
