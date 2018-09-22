@@ -17,7 +17,8 @@ class Tasks extends Component{
         open: false,
         vertical: 'bottom',
         horizontal: 'left',
-        message:"Done"
+        message:"Done",
+        snackbarTrigger:true
     }
 
 
@@ -44,19 +45,20 @@ class Tasks extends Component{
 
     componentWillReceiveProps() {
         const message = this.props.history.location.workType;
-        if(message === "Editing"){
+        if(message === "Editing" && this.state.snackbarTrigger){
             this.setState({ editMode:false, open: true, snackbar:true, message: "Task edited successfully"})
         }
-        else if(message === "Deleting"){
+        else if(message === "Deleting" && this.state.snackbarTrigger){
             this.setState({ editMode:false, open: true, snackbar:true, message: "Task deleted successfully"})
         }
-        else if(message === "Adding"){
+        else if(message === "Adding" && this.state.snackbarTrigger){
             this.setState({ editMode:false, open: true, snackbar:true, message: "Task added successfully"})
         }
         else{
             this.setState({editMode:false});
         }
         this.handleClick({ vertical: 'bottom', horizontal: 'left' });
+        this.setState({snackbarTrigger:false})
     }
 
 

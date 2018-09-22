@@ -21,9 +21,6 @@ class Task extends Component{
 
 
 
-    goBacktoTheTaskList = () =>{
-        this.setState({modeType:'Edit'},() => {console.log('salam')})
-    }
 
     taskRemoveHandler = (key) => {
         this.props.loadTrigger();
@@ -40,7 +37,6 @@ class Task extends Component{
 
     render(){
 
-        console.log(this.props);
 
         const taskObj = this.props.tasks;
         let taskHistory = this.props.history;

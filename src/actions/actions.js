@@ -49,7 +49,7 @@ export const updateIngridientsBase = (taskNumber, header, description, token, us
             dispatch(updateTaskState(response.data, taskNumber));
         })
         .catch(function (response) {
-            console.log(response);
+            
         })
     };
 }
@@ -69,7 +69,7 @@ export const deleteTaskFromBase = (taskNumber, token) => {
              dispatch(removeTask(taskNumber));
          })
         .catch(function (error) {
-            console.log('problem' + error);
+            
         })
     };
 }
@@ -100,7 +100,7 @@ export const addTaskToFirebase = (description, header, token, userID, taskDeadli
             dispatch(addTaskToRedux(description, header, response.data.name, taskDeadline));
         })
         .catch(function (error) {
-            console.log('problem' + error);
+            
         })
     };
 }
