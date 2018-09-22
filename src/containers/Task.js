@@ -27,6 +27,10 @@ class Task extends Component{
 
     taskRemoveHandler = (key) => {
         this.props.loadTrigger();
+        this.props.history.push({
+            pathname: '/tasklist',
+            workType: "Deleting"
+        })
         this.props.onRemoveTask(key, this.props.token);
     }
 
@@ -35,6 +39,8 @@ class Task extends Component{
     
 
     render(){
+
+        console.log(this.props);
 
         const taskObj = this.props.tasks;
         let taskHistory = this.props.history;
@@ -59,7 +65,6 @@ class Task extends Component{
                                     onRemove={(id) => taskRemove(id)}
                                     onSave={(taskID, taskHeader, taskDescription, taskDeadlinePeriod, taskStatus) => this.props.saveTask(taskID, taskHeader, taskDescription, taskDeadlinePeriod, taskStatus)}
                                     taskNumber={key}
-                                    onDelete={(key) => this.props.onRemoveTask(key)}
                                 />
                             </div>
                         )

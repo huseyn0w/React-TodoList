@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {Redirect} from 'react-router-dom';
+import {withRouter} from 'react-router-dom';
 import * as actionTypes from '../../../../actions/actionTypes';
 import * as actionList from '../../../../actions/actions';
 import Button from '@material-ui/core/Button';
@@ -88,6 +88,10 @@ class Input extends Component {
         }
         else{
             this.setState({submitted:true});
+            this.props.history.push({
+                pathname: '/tasklist',
+                workType:"Adding"
+            })
             this.props.loadStatusHandler();
             this.props.addNewTask(this.state.taskDescription, this.state.taskHeader,this.props.token,this.props.userID, this.state.taskDeadline);
         }
@@ -101,10 +105,8 @@ class Input extends Component {
 
         const { classes } = this.props;
         
-        let redirect = this.state.submitted ? <Redirect to="/tasklist" /> : null;
         return (
             <div>
-                {redirect}
                 <div className="Field">
                     <div className="FieldGroup">
                         <h2>New Task Adding Interface</h2>
@@ -150,7 +152,6 @@ class Input extends Component {
 
 let mapStateToProps = (state) => {
     return {
-        tasks:state.tasks,
         token:state.tokenID,
         NewtaskStatus: state.NewtaskStatus,
         userID:state.userID
@@ -171,4 +172,4 @@ Input.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Input));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Input)));

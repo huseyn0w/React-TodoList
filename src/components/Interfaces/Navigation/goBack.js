@@ -16,6 +16,7 @@ const styles = theme => ({
 
 const goBack = (props) => {
 
+
   const { classes } = props;
 
   return (
@@ -25,7 +26,7 @@ const goBack = (props) => {
                 Go Back
             </Button>
         </NavLink>
-        <NavLink to="/newTask">
+        <NavLink to="/newTask" ala="sdadasd">
             <Button variant="contained" color="primary"  className={classes.button}>
                 Add New Task
             </Button>
