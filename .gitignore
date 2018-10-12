@@ -3,8 +3,6 @@
 # dependencies
 /node_modules
 
-# public folder
-/public
 
 # public folder
 /package-lock.json
