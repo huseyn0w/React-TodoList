@@ -103,7 +103,11 @@ class signUp extends Component{
                 </form>
                 <br/>
                 <br/>
-                <NavLink to="/" className="btn btn-info">Go Back</NavLink>
+                <NavLink to="/" className="materialButton">
+                    <Button variant="contained" color="secondary"  className={classes.button}>
+                        Go Back
+                    </Button>
+                </NavLink>
             </div>
         );
     }

@@ -14,6 +14,28 @@
 }
 
 
+#page-numbers{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+#page-numbers li{
+  list-style: none;
+  margin: 0 10px;
+  cursor: pointer;
+  font-size: 20px;
+  border:1px solid transparent;
+  padding: 5px;
+  display: inline-block;
+}
+
+#page-numbers li.active{
+  color:blue;
+}
+
+
 
 button{
   border:0;
