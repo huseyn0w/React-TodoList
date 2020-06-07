@@ -2,9 +2,9 @@
 
 ## Todo List Application created with React JS by Elman Huseynov.
 
-[Demo](https://react-todolist.ehuseynov.com/)
+[Demo](https://huseyn0w-react-todolist.herokuapp.com/)
 
-[My Website](https://ehuseynov.com/)
+[My Website](https://huseyn0w.github.io/)
 
 [My Linkedin Profile](https://linkedin.com/in/huseyn0w)
 
