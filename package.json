@@ -10,7 +10,7 @@
     "@material-ui/icons": "^3.0.1",
     "@types/react-redux": "^6.0.4",
     "@types/react-router-dom": "^4.2.7",
-    "axios": "^0.18.0",
+    "axios": "^0.21.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-redux": "^5.0.7",

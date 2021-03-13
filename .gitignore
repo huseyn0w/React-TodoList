@@ -4,10 +4,6 @@
 /node_modules
 
 
-# public folder
-/package-lock.json
-
-
 # testing
 /coverage
 
